@@ -8,5 +8,51 @@ dependencies = [
     "django>=5.2.4",
     "django-cors-headers>=4.7.0",
     "djoser>=2.3.3",
+    "pre-commit>=4.2.0",
     "python-dotenv>=1.0.0",
 ]
+
+[tool.ruff]
+# Same as Black.
+line-length = 88
+indent-width = 4
+
+# Assume Python 3.13
+target-version = "py313"
+
+[tool.ruff.lint]
+# Enable pycodestyle (`E`) and Pyflakes (`F`) codes by default.
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # Pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "DJ", # flake8-django
+    "UP", # pyupgrade
+]
+ignore = [
+    "E501", # line too long, handled by formatter
+    "B008", # do not perform function calls in argument defaults
+    "C901", # too complex
+    "DJ001", # Avoid using `null=True` on string-based fields (we need this for optional username)
+]
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.ruff.lint.per-file-ignores]
+# Tests can use magic values, assertions, and relative imports
+"**/tests/**/*" = ["PLR2004", "S101", "TID252"]
+"**/migrations/**/*" = ["E501"]  # Allow long lines in migrations
+
+[tool.bandit]
+exclude_dirs = ["tests", "migrations"]
+skips = ["B101", "B601"]

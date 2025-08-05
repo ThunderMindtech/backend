@@ -8,7 +8,7 @@ class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         """Create and return a regular user with an email and password."""
         if not email:
-            raise ValueError('The Email field must be set')
+            raise ValueError("The Email field must be set")
 
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
@@ -18,13 +18,13 @@ class UserManager(BaseUserManager):
 
     def create_superuser(self, email, password=None, **extra_fields):
         """Create and return a superuser with an email and password."""
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
 
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError('Superuser must have is_staff=True.')
-        if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Superuser must have is_superuser=True.')
+        if extra_fields.get("is_staff") is not True:
+            raise ValueError("Superuser must have is_staff=True.")
+        if extra_fields.get("is_superuser") is not True:
+            raise ValueError("Superuser must have is_superuser=True.")
 
         return self.create_user(email, password, **extra_fields)
 
@@ -39,8 +39,7 @@ class User(AbstractUser):
 
     # Make email required and unique
     email = models.EmailField(
-        unique=True,
-        help_text='Required. Enter a valid email address.'
+        unique=True, help_text="Required. Enter a valid email address."
     )
 
     # Make username optional but still available
@@ -48,11 +47,11 @@ class User(AbstractUser):
         max_length=150,
         blank=True,
         null=True,
-        help_text='Optional. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'
+        help_text="Optional. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
     )
 
     # Set email as the username field
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []  # Remove username from required fields since email is the login
 
     objects = UserManager()
@@ -65,9 +64,9 @@ class User(AbstractUser):
     # is_verified = models.BooleanField(default=False)
 
     class Meta:
-        db_table = 'auth_user'  # Use the same table name as Django's default User
-        verbose_name = 'User'
-        verbose_name_plural = 'Users'
+        db_table = "auth_user"  # Use the same table name as Django's default User
+        verbose_name = "User"
+        verbose_name_plural = "Users"
 
     def __str__(self):
         return self.email
