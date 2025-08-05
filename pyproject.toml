@@ -8,4 +8,5 @@ dependencies = [
     "django>=5.2.4",
     "django-cors-headers>=4.7.0",
     "djoser>=2.3.3",
+    "python-dotenv>=1.0.0",
 ]
