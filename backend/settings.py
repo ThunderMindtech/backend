@@ -95,11 +95,20 @@ WSGI_APPLICATION = "backend.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+# Get database engine to determine how to handle the NAME field
+db_engine = os.getenv("DATABASE_ENGINE", "django.db.backends.sqlite3")
+db_name = os.getenv("DATABASE_NAME", "db.sqlite3")
+
+# For SQLite, use Path; for other databases, use string
+if "sqlite3" in db_engine:
+    db_name = BASE_DIR / db_name
+else:
+    db_name = str(db_name)
 
 DATABASES = {
     "default": {
-        "ENGINE": os.getenv("DATABASE_ENGINE", "django.db.backends.sqlite3"),
-        "NAME": BASE_DIR / os.getenv("DATABASE_NAME", "db.sqlite3"),
+        "ENGINE": db_engine,
+        "NAME": db_name,
         "HOST": os.getenv("DATABASE_HOST", ""),
         "PORT": os.getenv("DATABASE_PORT", ""),
         "USER": os.getenv("DATABASE_USER", ""),
